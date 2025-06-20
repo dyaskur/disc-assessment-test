@@ -1,0 +1,29 @@
+{
+  "heading": "Selamat! Anda telah menyelesaikan asesmen!",
+  "primaryText": "Profil kepribadian utama Anda adalah",
+  "secondaryText": "Profil kepribadian sekunder Anda adalah",
+  "attributes": [
+    {
+      "name": "DOMINANCE",
+      "definition": "menyelesaikan tantangan, mendorong tindakan dan hasil, serta bergerak dengan cepat.",
+      "color": "rgb(0, 112, 192)"
+    },
+    {
+      "name": "INFLUENCE",
+      "definition": "mendapatkan energi dari orang lain, antusias, dan menyukai partisipasi dalam kelompok.",
+      "color": "rgb(255, 192, 0)"
+    },
+    {
+      "name": "STEADINESS",
+      "definition": "setia, pendengar yang baik, menggunakan keahlian khusus, dan bersikap tenang.",
+      "color": "rgb(112, 173, 71)"
+    },
+    {
+      "name": "COMPLIANCE",
+      "definition": "mengikuti aturan, fokus pada detail, berpikir analitis, dan bertindak secara diplomatis.",
+      "color": "rgb(255, 0, 0)"
+    }
+  ],
+  "descriptionText": "Kita semua merupakan perpaduan dari 4 tipe kepribadian yang membentuk keunikan masing-masing individu.",
+  "button": "Unduh & Simpan"
+}

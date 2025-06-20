@@ -1,0 +1,156 @@
+{
+  "wordGroups": [
+    {
+      "words": [
+        { "id": 0, "word": "Suka Mengendalikan", "leadershipTypeId": 0, "rank": null },
+        { "id": 1, "word": "Antusias", "leadershipTypeId": 1, "rank": null },
+        { "id": 2, "word": "Peka", "leadershipTypeId": 2, "rank": null },
+        { "id": 3, "word": "Konsisten", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 4, "word": "Percaya Diri", "leadershipTypeId": 0, "rank": null },
+        { "id": 5, "word": "Visioner", "leadershipTypeId": 1, "rank": null },
+        { "id": 6, "word": "Tenang", "leadershipTypeId": 2, "rank": null },
+        { "id": 7, "word": "Pendiam", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 8, "word": "Tegas", "leadershipTypeId": 0, "rank": null },
+        { "id": 9, "word": "Energik", "leadershipTypeId": 1, "rank": null },
+        { "id": 10, "word": "Tidak Menuntut", "leadershipTypeId": 2, "rank": null },
+        { "id": 11, "word": "Praktis", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 12, "word": "Suka Perubahan", "leadershipTypeId": 0, "rank": null },
+        { "id": 13, "word": "Promotor", "leadershipTypeId": 1, "rank": null },
+        { "id": 14, "word": "Menyukai Rutinitas", "leadershipTypeId": 2, "rank": null },
+        { "id": 15, "word": "Faktual", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 16, "word": "Pemecah Masalah", "leadershipTypeId": 0, "rank": null },
+        { "id": 17, "word": "Mudah Bergaul", "leadershipTypeId": 1, "rank": null },
+        { "id": 18, "word": "Relasional", "leadershipTypeId": 2, "rank": null },
+        { "id": 19, "word": "Perfeksionis", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 20, "word": "Berani", "leadershipTypeId": 0, "rank": null },
+        { "id": 21, "word": "Suka Bersenang-senang", "leadershipTypeId": 1, "rank": null },
+        { "id": 22, "word": "Mudah Beradaptasi", "leadershipTypeId": 2, "rank": null },
+        { "id": 23, "word": "Detail", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 24, "word": "Berorientasi Tujuan", "leadershipTypeId": 0, "rank": null },
+        { "id": 25, "word": "Spontan", "leadershipTypeId": 1, "rank": null },
+        { "id": 26, "word": "Bijaksana", "leadershipTypeId": 2, "rank": null },
+        { "id": 27, "word": "Ingin Tahu", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 28, "word": "Kehendak Kuat", "leadershipTypeId": 0, "rank": null },
+        { "id": 29, "word": "Suka Ide Baru", "leadershipTypeId": 1, "rank": null },
+        { "id": 30, "word": "Sabar", "leadershipTypeId": 2, "rank": null },
+        { "id": 31, "word": "Gigih", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 32, "word": "Mandiri", "leadershipTypeId": 0, "rank": null },
+        { "id": 33, "word": "Optimis", "leadershipTypeId": 1, "rank": null },
+        { "id": 34, "word": "Pendengar yang Baik", "leadershipTypeId": 2, "rank": null },
+        { "id": 35, "word": "Peka", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 36, "word": "Mengatur Langsung", "leadershipTypeId": 0, "rank": null },
+        { "id": 37, "word": "Berani Ambil Risiko", "leadershipTypeId": 1, "rank": null },
+        { "id": 38, "word": "Loyal", "leadershipTypeId": 2, "rank": null },
+        { "id": 39, "word": "Akurat", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 40, "word": "Mengambil Kendali", "leadershipTypeId": 0, "rank": null },
+        { "id": 41, "word": "Motivator", "leadershipTypeId": 1, "rank": null },
+        { "id": 42, "word": "Seimbang", "leadershipTypeId": 2, "rank": null },
+        { "id": 43, "word": "Terkontrol", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 44, "word": "Tekun", "leadershipTypeId": 0, "rank": null },
+        { "id": 45, "word": "Sangat Verbal", "leadershipTypeId": 1, "rank": null },
+        { "id": 46, "word": "Mudah Menyerah", "leadershipTypeId": 2, "rank": null },
+        { "id": 47, "word": "Dapat Diprediksi", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 48, "word": "Wiraswasta", "leadershipTypeId": 0, "rank": null },
+        { "id": 49, "word": "Ramah", "leadershipTypeId": 1, "rank": null },
+        { "id": 50, "word": "Ragu-ragu", "leadershipTypeId": 2, "rank": null },
+        { "id": 51, "word": "Tertib", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 52, "word": "Kompetitif", "leadershipTypeId": 0, "rank": null },
+        { "id": 53, "word": "Populer", "leadershipTypeId": 1, "rank": null },
+        { "id": 54, "word": "Tidak Suka Perubahan", "leadershipTypeId": 2, "rank": null },
+        { "id": 55, "word": "Penuh Tanggung Jawab", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 56, "word": "Produktif", "leadershipTypeId": 0, "rank": null },
+        { "id": 57, "word": "Suka Variasi", "leadershipTypeId": 1, "rank": null },
+        { "id": 58, "word": "Humor Kering", "leadershipTypeId": 2, "rank": null },
+        { "id": 59, "word": "Cermat", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 60, "word": "Penuh Tujuan", "leadershipTypeId": 0, "rank": null },
+        { "id": 61, "word": "Berorientasi Kelompok", "leadershipTypeId": 1, "rank": null },
+        { "id": 62, "word": "Penuh Empati", "leadershipTypeId": 2, "rank": null },
+        { "id": 63, "word": "Analitis", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 64, "word": "Petualang", "leadershipTypeId": 0, "rank": null },
+        { "id": 65, "word": "Inisiator", "leadershipTypeId": 1, "rank": null },
+        { "id": 66, "word": "Penyayang", "leadershipTypeId": 2, "rank": null },
+        { "id": 67, "word": "Presisi", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 68, "word": "Mandiri", "leadershipTypeId": 0, "rank": null },
+        { "id": 69, "word": "Inspiratif", "leadershipTypeId": 1, "rank": null },
+        { "id": 70, "word": "Toleran", "leadershipTypeId": 2, "rank": null },
+        { "id": 71, "word": "Terjadwal", "leadershipTypeId": 3, "rank": null }
+      ]
+    },
+    {
+      "words": [
+        { "id": 72, "word": "Berorientasi Tindakan", "leadershipTypeId": 0, "rank": null },
+        { "id": 73, "word": "Suka Perubahan", "leadershipTypeId": 1, "rank": null },
+        { "id": 74, "word": "Pendamai", "leadershipTypeId": 2, "rank": null },
+        { "id": 75, "word": "Penuh Pertimbangan", "leadershipTypeId": 3, "rank": null }
+      ]
+    }
+  ]
+}
