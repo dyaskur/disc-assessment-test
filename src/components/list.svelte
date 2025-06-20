@@ -36,7 +36,7 @@
 	$: ready = items.length === 0
 
 	const updateWordRank = (pageNumber, wordId, newRank) => {
-		if (pageNumber, wordId, newRank) {
+		if (pageNumber || wordId || newRank) {
 			wordGroupsStore.update(sets => {
 				const wordIndex = sets[pageNumber].words.findIndex(word => word.id === wordId);
 				if(wordIndex > -1) {
@@ -53,6 +53,9 @@
 
 	function handleFinalize(e) {
 		items = e.detail.items;
+		if (e.detail.items.length === 0) {
+			return
+		}
 		updateWordRank(pageNumber, e.detail.items[0].id, testValue)
 	}	
 </script>
