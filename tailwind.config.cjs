@@ -5,12 +5,12 @@ module.exports = {
     themes: [
       {
         corporate: {
-          ...require("daisyui/src/colors/themes")["[data-theme=corporate]"],
-          "background-color": "#f1f1e6"
-        },
-      },
-    ],
-  },  
+          ...require('daisyui/src/colors/themes')['[data-theme=corporate]'],
+          'background-color': '#f1f1e6'
+        }
+      }
+    ]
+  },
   theme: {
     container: {
       padding: {
@@ -18,8 +18,8 @@ module.exports = {
         sm: '2rem',
         lg: '4rem',
         xl: '5rem',
-        '2xl': '6rem',
-      },
-    },
-  },
+        '2xl': '6rem'
+      }
+    }
+  }
 };

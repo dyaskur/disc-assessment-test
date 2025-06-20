@@ -17,13 +17,16 @@
   let maxPageNumber = 0;
 
   let options = { first: null, second: null, third: null, fourth: null };
-  let items1 = [], items2 = [], items3 = [], items4 = [];
+  let items1 = [],
+    items2 = [],
+    items3 = [],
+    items4 = [];
 
   let ready = false;
   let progress = 0;
   $: {
     const wordGroups = get(wordGroupsStore);
-    if(wordGroups && wordGroups.length > 0) {
+    if (wordGroups && wordGroups.length > 0) {
       updatePageData();
     }
   }
@@ -49,12 +52,12 @@
 
     wordGroupsStore.set(wordGroupData.wordGroups);
 
-    wordGroupsStore.subscribe( () => {
+    wordGroupsStore.subscribe(() => {
       // updatePageData();
       progress = (pageNumber / maxPageNumber) * 100;
       const wordGroups = get(wordGroupsStore);
       const group = wordGroups[pageNumber];
-      ready = !group.words.some(word => word.rank === null);
+      ready = !group.words.some((word) => word.rank === null);
 
       console.log('update', progress, ready, group);
     });
@@ -67,7 +70,7 @@
     if (!wordGroups || wordGroups.length === 0) return;
 
     const group = wordGroups[pageNumber];
-    const unrankedWords = group.words.filter(word => word.rank === null);
+    const unrankedWords = group.words.filter((word) => word.rank === null);
     maxPageNumber = wordGroups.length;
 
     options = {
@@ -77,12 +80,11 @@
       fourth: unrankedWords[3] || null
     };
 
-
-    ready = !group.words.some(word => word.rank === null);
+    ready = !group.words.some((word) => word.rank === null);
     progress = (pageNumber / maxPageNumber) * 100;
     console.log(ready, progress, options, 'updatePageData');
-
   }
+
   function handleNext() {
     const wordGroups = get(wordGroupsStore);
 
@@ -101,7 +103,7 @@
       const updated = [...groups];
       updated[pageNumber] = {
         ...updated[pageNumber],
-        words: updated[pageNumber].words.map(word => ({ ...word, rank: null }))
+        words: updated[pageNumber].words.map((word) => ({ ...word, rank: null }))
       };
       return updated;
     });
@@ -126,24 +128,32 @@
 
     <div class="available flex w-full h-50 pb-3">
       <div class="flex flex-col w-full">
-        {#if options.first}<List items={[options.first]} bind:pageNumber />{/if}
-        {#if options.second}<List items={[options.second]} bind:pageNumber />{/if}
-        {#if options.third}<List items={[options.third]} bind:pageNumber />{/if}
-        {#if options.fourth}<List items={[options.fourth]} bind:pageNumber />{/if}
+        {#if options.first}
+          <List items={[options.first]} bind:pageNumber />
+        {/if}
+        {#if options.second}
+          <List items={[options.second]} bind:pageNumber />
+        {/if}
+        {#if options.third}
+          <List items={[options.third]} bind:pageNumber />
+        {/if}
+        {#if options.fourth}
+          <List items={[options.fourth]} bind:pageNumber />
+        {/if}
       </div>
 
-      <div class="divider divider-horizontal"></div>
+      <div class="divider divider-horizontal" />
 
       <div class="flex flex-col w-full">
-        <List items={items1} testValue={3} bind:pageNumber placeholder={testLanguage.scale[0]}/>
-        <List items={items2} testValue={2} bind:pageNumber placeholder={testLanguage.scale[1]}/>
+        <List items={items1} testValue={3} bind:pageNumber placeholder={testLanguage.scale[0]} />
+        <List items={items2} testValue={2} bind:pageNumber placeholder={testLanguage.scale[1]} />
         <List items={items3} testValue={1} bind:pageNumber placeholder={testLanguage.scale[2]} />
-        <List items={items4} testValue={0} bind:pageNumber placeholder={testLanguage.scale[3]}/>
+        <List items={items4} testValue={0} bind:pageNumber placeholder={testLanguage.scale[3]} />
       </div>
     </div>
 
     <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-      <div class="bg-yellow-500 h-2.5 rounded-full" style="width: {progress}%"></div>
+      <div class="bg-yellow-500 h-2.5 rounded-full" style="width: {progress}%" />
     </div>
 
     <div class="flex justify-evenly space-x-2 mt-1">

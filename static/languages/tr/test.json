@@ -1,11 +1,6 @@
 {
   "instructionsText": "Soldaki kelimeleri, kendinize ilişkin görüşünüze en uygun şekilde sağdaki sıralı sıraya sürükleyip bırakın.",
-  "scale":[
-    "Çok fazla",
-    "Çoğu zaman",
-    "Bazen",
-    "Nadiren"
-  ],
+  "scale": ["Çok fazla", "Çoğu zaman", "Bazen", "Nadiren"],
   "resetButton": "SIFIRLA",
   "nextButton": "SONRAKİ"
 }

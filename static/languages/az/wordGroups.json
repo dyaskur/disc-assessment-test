@@ -4,7 +4,7 @@
       "words": [
         {
           "id": 0,
-          "word":  "Kontrol sevən",
+          "word": "Kontrol sevən",
           "leadershipTypeId": 0,
           "rank": null
         },
@@ -58,11 +58,11 @@
     },
     {
       "words": [
-        { 
-          "id": 8, 
-          "word": "Möhkəm xasiyyətli", 
-          "leadershipTypeId": 0, 
-          "rank": null 
+        {
+          "id": 8,
+          "word": "Möhkəm xasiyyətli",
+          "leadershipTypeId": 0,
+          "rank": null
         },
         {
           "id": 9,

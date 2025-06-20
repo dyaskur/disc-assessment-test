@@ -4,7 +4,7 @@
 
 html {
   overscroll-behavior: none;
-}  
+}
 
 body {
   background-color: #f1f1e6;
@@ -16,7 +16,7 @@ body {
   overflow-x: hidden;
   overscroll-behavior: none;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch;  
+  -webkit-overflow-scrolling: touch;
 }
 
 h1 {
@@ -29,5 +29,5 @@ h1 {
 }
 
 p {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }

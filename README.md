@@ -1,6 +1,5 @@
 # Disc Assessment Tool
 
-
 The **Disc Assessment Tool** is a powerful and flexible tool designed to facilitate taking a DISC assessment in multiple languages. The tool allows users to complete the assessment in their preferred language, making it accessible to a wider audience.
 
 ## Features
@@ -14,21 +13,25 @@ The **Disc Assessment Tool** is a powerful and flexible tool designed to facilit
 Follow these steps to get started with the Disc Assessment Tool:
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/rmcew/disc-tool.git
    ```
 
 2. Navigate to the project directory:
+
    ```bash
    cd disc-assessment-tool
    ```
 
 3. Install dependencies:
+
    ```bash
    npm install
    ```
 
 4. Start the development server:
+
    ```bash
    npm start
    ```

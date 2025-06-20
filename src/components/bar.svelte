@@ -2,12 +2,12 @@
   export let value;
   export let max;
   export let barColor;
-  
-  const width = value / max * 100 + "%";
+
+  const width = (value / max) * 100 + '%';
   const style = `background-color: ${barColor}; width: ${width};`;
 </script>
 
-<div class="bar" style={style}></div>
+<div class="bar" {style} />
 
 <style>
   .bar {

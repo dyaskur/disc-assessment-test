@@ -1,11 +1,6 @@
 {
   "instructionsText": "Tërhiqi fjalët që gjenden në të majtë dhe vendosi në anën e djathtë sipas renditjes që i përshtatet më shumë pikëpamjes tënde për veten tuaj.",
-  "scale":[
-    "Shumë shpesh",
-    "Shpesh",
-    "Ndonjëherë",
-    "Rrallë"
-  ],
+  "scale": ["Shumë shpesh", "Shpesh", "Ndonjëherë", "Rrallë"],
   "resetButton": "Rifillo",
   "nextButton": "Hapi tjetër"
 }

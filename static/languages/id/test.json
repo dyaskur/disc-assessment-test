@@ -1,11 +1,6 @@
 {
   "instructionsText": "Seret dan jatuhkan kata-kata di sebelah kiri ke dalam urutan peringkat di sebelah kanan yang paling sesuai dengan pandangan Anda tentang diri sendiri.",
-  "scale": [
-    "Sangat Sesuai",
-    "Sering Kali",
-    "Kadang-Kadang",
-    "Jarang"
-  ],
+  "scale": ["Sangat Sesuai", "Sering Kali", "Kadang-Kadang", "Jarang"],
   "resetButton": "RESET",
   "nextButton": "LANJUT"
 }
