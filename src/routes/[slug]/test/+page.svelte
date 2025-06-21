@@ -127,7 +127,7 @@
     </div>
 
     <div class="available flex w-full h-50 pb-3">
-      <div class="flex flex-col w-full">
+      <div class="flex flex-col w-full options">
         {#if options.first}
           <List items={[options.first]} bind:pageNumber />
         {/if}
@@ -144,7 +144,7 @@
 
       <div class="divider divider-horizontal" />
 
-      <div class="flex flex-col w-full">
+      <div class="flex flex-col w-full answers">
         <List items={items1} testValue={3} bind:pageNumber placeholder={testLanguage.scale[0]} />
         <List items={items2} testValue={2} bind:pageNumber placeholder={testLanguage.scale[1]} />
         <List items={items3} testValue={1} bind:pageNumber placeholder={testLanguage.scale[2]} />
