@@ -1,7 +1,6 @@
 <script lang="ts">
   import { wordGroupsStore } from '../stores/wordSet';
   import { onMount } from 'svelte';
-  import { orderBy } from 'lodash';
   import Chart from './chart.svelte';
   import type { WordGroupData, AssessmentResultText } from '$types/languages';
 
@@ -56,7 +55,8 @@
 
     return {
       points,
-      sortedPoints: orderBy(points, 'weight', 'desc')
+      // sort points by weight
+      sortedPoints: points.slice().sort((a, b) => b.weight - a.weight)
     };
   }
 </script>
