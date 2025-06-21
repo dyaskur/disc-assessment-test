@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import type { Page, Locator } from '@playwright/test';
-
+import fs from 'fs';
 async function dragAndDrop(page: Page, source: Locator, target: Locator) {
   await source.waitFor({ state: 'visible' });
   await target.waitFor({ state: 'visible' });
@@ -79,4 +79,19 @@ test('Test page has expected drag and drop', async ({ page }) => {
   expect(await saveButton.textContent()).toBe('Download & Save');
   await page.waitForTimeout(500);
   await page.screenshot({ path: 'tests/screenshots/finished'+timestamp+'.png', fullPage: true });
+  page.on('download', download => download.path().then(console.log));
+  const [ download ] = await Promise.all([
+    page.waitForEvent('download'),
+    saveButton.click(),
+  ]);
+
+  // Save to a specific path
+  const suggestedFilename = download.suggestedFilename();
+  const savePath = `tests/downloads/${suggestedFilename}`;
+
+  await download.saveAs(savePath);
+
+  // Verify file exist
+  expect(fs.existsSync(savePath)).toBe(true);
+
 });
