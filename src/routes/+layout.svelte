@@ -1,7 +1,6 @@
-<script>
+<script lang="ts">
   import '../app.css';
   import { base } from '$app/paths';
-  export const prerender = true;
   const logo = new URL('../images/glp-logo-head.png', import.meta.url).href;
 </script>
 

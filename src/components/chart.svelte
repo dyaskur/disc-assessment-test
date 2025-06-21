@@ -21,7 +21,7 @@
             }
           }
         },
-        formatter: (value, context) => {
+        formatter: (value) => {
           function totalSum(total, dataPoint) {
             return total + dataPoint;
           }

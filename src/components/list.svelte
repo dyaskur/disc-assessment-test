@@ -1,22 +1,21 @@
-<script>
+<script lang="ts">
   import { dndzone } from 'svelte-dnd-action';
   import { flip } from 'svelte/animate';
   import { wordGroupsStore } from '../stores/wordSet';
+  import type { Word } from '$types/languages.js';
 
   const flipDurationMs = 100;
 
-  export let items = [];
-  export let ready;
-  export let placeholder;
-  export let testValue;
-  export let pageNumber;
+  export let items: Word[] = [];
+  export let placeholder = '';
+  export let testValue = 0;
+  export let pageNumber = 0;
 
   const MAX_ALLOWED = 1;
   $: dropFromOthersDisabled = items.length === MAX_ALLOWED || !placeholder;
   $: dragDisabled = !!placeholder && items.length === 0;
-  $: ready = items.length === 0;
 
-  const updateWordRank = (pageNumber, wordId, newRank) => {
+  const updateWordRank = (pageNumber: number, wordId: number, newRank: number) => {
     if (pageNumber || wordId || newRank) {
       wordGroupsStore.update((sets) => {
         const wordIndex = sets[pageNumber].words.findIndex((word) => word.id === wordId);
@@ -47,7 +46,7 @@
   on:consider={handleConsider}
   on:finalize={handleFinalize}
 >
-  {#if placeholder && !items.length > 0}
+  {#if placeholder && !items.length}
     <span style="color: grey">{placeholder}</span>
   {/if}
   {#each items as item (item.id)}

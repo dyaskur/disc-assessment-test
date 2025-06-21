@@ -1,72 +1,66 @@
-<script>
+<script lang="ts">
   import { wordGroupsStore } from '../stores/wordSet';
   import { onMount } from 'svelte';
   import { orderBy } from 'lodash';
   import Chart from './chart.svelte';
+  import type { WordGroupData, AssessmentResultText } from '$types/languages';
 
-  export let resultsLanguage;
+  export let resultsLanguage: AssessmentResultText;
 
-  let html2pdf;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let html2pdf: any = null;
   onMount(async () => {
-    if (window) {
+    if (typeof window !== 'undefined') {
       const module = await import('html2pdf.js');
       html2pdf = module.default;
     }
   });
 
   async function saveScreenshot() {
-    var element = document.getElementById('results');
-    var opt = {
+    const element = document.getElementById('results');
+    const opt = {
       margin: 0,
       filename: 'myfile.pdf',
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: {
-        scale: 2, // higher quality
-        windowWidth: 1024 // simulate a browser size that causes the page's responsive CSS to output a pleasing layout in the rendered PDF
-      },
+      html2canvas: { scale: 2, windowWidth: 1024 },
       jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
     html2pdf().set(opt).from(element).outputPdf().save();
   }
 
-  async function calculatepoints(store) {
-    console.log('store', store);
-    const points = [
-      {
-        id: 0,
-        trait: resultsLanguage.attributes[0].name,
-        weight: 0,
-        color: resultsLanguage.attributes[0].color
-      },
-      {
-        id: 1,
-        trait: resultsLanguage.attributes[1].name,
-        weight: 0,
-        color: resultsLanguage.attributes[1].color
-      },
-      {
-        id: 2,
-        trait: resultsLanguage.attributes[2].name,
-        weight: 0,
-        color: resultsLanguage.attributes[2].color
-      },
-      {
-        id: 3,
-        trait: resultsLanguage.attributes[3].name,
-        weight: 0,
-        color: resultsLanguage.attributes[3].color
-      }
-    ];
+  type Point = {
+    id: number;
+    trait: string;
+    weight: number;
+    color: string;
+  };
 
-    store.map((page) => {
-      points[0] = { ...points[0], weight: points[0].weight + page.words[0].rank };
-      points[1] = { ...points[1], weight: points[1].weight + page.words[1].rank };
-      points[2] = { ...points[2], weight: points[2].weight + page.words[2].rank };
-      points[3] = { ...points[3], weight: points[3].weight + page.words[3].rank };
+  async function calculatepoints(store: WordGroupData['wordGroups']) {
+    const points: Point[] = resultsLanguage.attributes.map((attr, index) => ({
+      id: index,
+      trait: attr.name,
+      weight: 0,
+      color: attr.color
+    }));
+
+    store.forEach((page) => {
+      page.words.forEach((word, index) => {
+        if (points[index]) {
+          points[index] = {
+            ...points[index],
+            weight: points[index].weight + (word.rank ?? 0)
+          };
+        }
+      });
     });
-    return { points, sortedPoints: orderBy(points, 'weight', 'desc') };
+
+    return {
+      points,
+      sortedPoints: orderBy(points, 'weight', 'desc')
+    };
   }
 </script>
+
 
 {#await calculatepoints($wordGroupsStore) then { points, sortedPoints }}
   <div id="results">

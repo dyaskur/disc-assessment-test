@@ -1,6 +1,4 @@
 <script>
-  import { flip } from 'svelte/animate';
-
   export let item;
 </script>
 

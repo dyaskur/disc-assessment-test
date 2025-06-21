@@ -1,170 +1,172 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { get } from 'svelte/store';
-  import List from '../../../components/list.svelte';
-  import Results from '../../../components/results.svelte';
-  import { wordGroupsStore } from '../../../stores/wordSet';
-  import { page } from '$app/stores';
-  import { base } from '$app/paths';
+	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
+	import List from '../../../components/list.svelte';
+	import Results from '../../../components/results.svelte';
+	import { wordGroupsStore } from '../../../stores/wordSet';
+	import { page } from '$app/stores';
+	import { base } from '$app/paths';
+	import type {Word, AssessmentResultText, AssessmentInstructions } from '$types/languages';
 
-  const lang = $page.params.slug;
 
-  let testLanguage: any = null;
-  let resultsLanguage: any = null;
-  let showResults = false;
+	const lang = $page.params.slug;
 
-  let pageNumber = 0;
-  let maxPageNumber = 0;
+	let testLanguage: AssessmentInstructions | null = null;
+	let resultsLanguage: AssessmentResultText | null = null;
+	let showResults = false;
 
-  let options = { first: null, second: null, third: null, fourth: null };
-  let items1 = [],
-    items2 = [],
-    items3 = [],
-    items4 = [];
+	let pageNumber = 0;
+	let maxPageNumber = 0;
 
-  let ready = false;
-  let progress = 0;
-  $: {
-    const wordGroups = get(wordGroupsStore);
-    if (wordGroups && wordGroups.length > 0) {
-      updatePageData();
-    }
-  }
+	let options = { first: null, second: null, third: null, fourth: null };
+	let items1: Word[] = [],
+		items2: Word[] = [],
+		items3: Word[] = [],
+		items4: Word[] = [];
 
-  onMount(async () => {
-    await fetchData();
-    resultsLanguage = await fetchResultsLanguage();
-  });
+	let ready = false;
+	let progress = 0;
+	$: {
+		const wordGroups = get(wordGroupsStore);
+		if (wordGroups && wordGroups.length > 0) {
+			updatePageData();
+		}
+	}
 
-  async function fetchResultsLanguage() {
-    const res = await fetch(`${base}/languages/${lang}/results.json`);
-    return await res.json();
-  }
+	onMount(async () => {
+		await fetchData();
+		resultsLanguage = await fetchResultsLanguage();
+	});
 
-  async function fetchData() {
-    const [testRes, wordsRes] = await Promise.all([
-      fetch(`${base}/languages/${lang}/test.json`),
-      fetch(`${base}/languages/${lang}/wordGroups.json`)
-    ]);
+	async function fetchResultsLanguage() {
+		const res = await fetch(`${base}/languages/${lang}/results.json`);
+		return await res.json();
+	}
 
-    testLanguage = await testRes.json();
-    const wordGroupData = await wordsRes.json();
+	async function fetchData() {
+		const [testRes, wordsRes] = await Promise.all([
+			fetch(`${base}/languages/${lang}/test.json`),
+			fetch(`${base}/languages/${lang}/wordGroups.json`)
+		]);
 
-    wordGroupsStore.set(wordGroupData.wordGroups);
+		testLanguage = await testRes.json();
+		const wordGroupData = await wordsRes.json();
 
-    wordGroupsStore.subscribe(() => {
-      // updatePageData();
-      progress = (pageNumber / maxPageNumber) * 100;
-      const wordGroups = get(wordGroupsStore);
-      const group = wordGroups[pageNumber];
-      ready = !group.words.some((word) => word.rank === null);
+		wordGroupsStore.set(wordGroupData.wordGroups);
 
-      console.log('update', progress, ready, group);
-    });
-    updatePageData(); // Make sure it's called after store is updated
-  }
+		wordGroupsStore.subscribe(() => {
+			// updatePageData();
+			progress = (pageNumber / maxPageNumber) * 100;
+			const wordGroups = get(wordGroupsStore);
+			const group = wordGroups[pageNumber];
+			ready = !group.words.some((word) => word.rank === null);
 
-  function updatePageData() {
-    const wordGroups = get(wordGroupsStore);
+			console.log('update', progress, ready, group);
+		});
+		updatePageData(); // Make sure it's called after store is updated
+	}
 
-    if (!wordGroups || wordGroups.length === 0) return;
+	function updatePageData() {
+		const wordGroups = get(wordGroupsStore);
 
-    const group = wordGroups[pageNumber];
-    const unrankedWords = group.words.filter((word) => word.rank === null);
-    maxPageNumber = wordGroups.length;
+		if (!wordGroups || wordGroups.length === 0) return;
 
-    options = {
-      first: unrankedWords[0] || null,
-      second: unrankedWords[1] || null,
-      third: unrankedWords[2] || null,
-      fourth: unrankedWords[3] || null
-    };
+		const group = wordGroups[pageNumber];
+		const unrankedWords = group.words.filter((word) => word.rank === null);
+		maxPageNumber = wordGroups.length;
 
-    ready = !group.words.some((word) => word.rank === null);
-    progress = (pageNumber / maxPageNumber) * 100;
-    console.log(ready, progress, options, 'updatePageData');
-  }
+		options = {
+			first: unrankedWords[0] || null,
+			second: unrankedWords[1] || null,
+			third: unrankedWords[2] || null,
+			fourth: unrankedWords[3] || null
+		};
 
-  function handleNext() {
-    const wordGroups = get(wordGroupsStore);
+		ready = !group.words.some((word) => word.rank === null);
+		progress = (pageNumber / maxPageNumber) * 100;
+		console.log(ready, progress, options, 'updatePageData');
+	}
 
-    if (wordGroups && pageNumber >= wordGroups.length - 1) {
-      showResults = true;
-      return;
-    }
+	function handleNext() {
+		const wordGroups = get(wordGroupsStore);
 
-    pageNumber++;
-    resetItems();
-    updatePageData();
-  }
+		if (wordGroups && pageNumber >= wordGroups.length - 1) {
+			showResults = true;
+			return;
+		}
 
-  function handleReset() {
-    wordGroupsStore.update((groups) => {
-      const updated = [...groups];
-      updated[pageNumber] = {
-        ...updated[pageNumber],
-        words: updated[pageNumber].words.map((word) => ({ ...word, rank: null }))
-      };
-      return updated;
-    });
+		pageNumber++;
+		resetItems();
+		updatePageData();
+	}
 
-    resetItems();
-    updatePageData();
-  }
+	function handleReset() {
+		wordGroupsStore.update((groups) => {
+			const updated = [...groups];
+			updated[pageNumber] = {
+				...updated[pageNumber],
+				words: updated[pageNumber].words.map((word) => ({ ...word, rank: null }))
+			};
+			return updated;
+		});
 
-  function resetItems() {
-    items1 = [];
-    items2 = [];
-    items3 = [];
-    items4 = [];
-  }
+		resetItems();
+		updatePageData();
+	}
+
+	function resetItems() {
+		items1 = [];
+		items2 = [];
+		items3 = [];
+		items4 = [];
+	}
 </script>
 
 {#if testLanguage}
-  {#if !showResults}
-    <div class="flex-none sm:container sm:mx-auto mx-10 text-center">
-      <p>{testLanguage.instructionsText}</p>
-    </div>
+	{#if !showResults}
+		<div class="flex-none sm:container sm:mx-auto mx-10 text-center">
+			<p>{testLanguage.instructionsText}</p>
+		</div>
 
-    <div class="available flex w-full h-50 pb-3">
-      <div class="flex flex-col w-full options">
-        {#if options.first}
-          <List items={[options.first]} bind:pageNumber />
-        {/if}
-        {#if options.second}
-          <List items={[options.second]} bind:pageNumber />
-        {/if}
-        {#if options.third}
-          <List items={[options.third]} bind:pageNumber />
-        {/if}
-        {#if options.fourth}
-          <List items={[options.fourth]} bind:pageNumber />
-        {/if}
-      </div>
+		<div class="available flex w-full h-50 pb-3">
+			<div class="flex flex-col w-full options">
+				{#if options.first}
+					<List items={[options.first]} bind:pageNumber />
+				{/if}
+				{#if options.second}
+					<List items={[options.second]} bind:pageNumber />
+				{/if}
+				{#if options.third}
+					<List items={[options.third]} bind:pageNumber />
+				{/if}
+				{#if options.fourth}
+					<List items={[options.fourth]} bind:pageNumber />
+				{/if}
+			</div>
 
-      <div class="divider divider-horizontal" />
+			<div class="divider divider-horizontal" />
 
-      <div class="flex flex-col w-full answers">
-        <List items={items1} testValue={3} bind:pageNumber placeholder={testLanguage.scale[0]} />
-        <List items={items2} testValue={2} bind:pageNumber placeholder={testLanguage.scale[1]} />
-        <List items={items3} testValue={1} bind:pageNumber placeholder={testLanguage.scale[2]} />
-        <List items={items4} testValue={0} bind:pageNumber placeholder={testLanguage.scale[3]} />
-      </div>
-    </div>
+			<div class="flex flex-col w-full answers">
+				<List items={items1} testValue={3} bind:pageNumber placeholder={testLanguage.scale[0]} />
+				<List items={items2} testValue={2} bind:pageNumber placeholder={testLanguage.scale[1]} />
+				<List items={items3} testValue={1} bind:pageNumber placeholder={testLanguage.scale[2]} />
+				<List items={items4} testValue={0} bind:pageNumber placeholder={testLanguage.scale[3]} />
+			</div>
+		</div>
 
-    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-      <div class="bg-yellow-500 h-2.5 rounded-full" style="width: {progress}%" />
-    </div>
+		<div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+			<div class="bg-yellow-500 h-2.5 rounded-full" style="width: {progress}%" />
+		</div>
 
-    <div class="flex justify-evenly space-x-2 mt-1">
-      <button on:click={handleReset} class="btn md:btn-wide btn-secondary">
-        {testLanguage.resetButton}
-      </button>
-      <button on:click={handleNext} class="btn md:btn-wide btn-primary" disabled={!ready}>
-        {testLanguage.nextButton}
-      </button>
-    </div>
-  {:else if resultsLanguage}
-    <Results {resultsLanguage} />
-  {/if}
+		<div class="flex justify-evenly space-x-2 mt-1">
+			<button on:click={handleReset} class="btn md:btn-wide btn-secondary">
+				{testLanguage.resetButton}
+			</button>
+			<button on:click={handleNext} class="btn md:btn-wide btn-primary" disabled={!ready}>
+				{testLanguage.nextButton}
+			</button>
+		</div>
+	{:else if resultsLanguage}
+		<Results {resultsLanguage} />
+	{/if}
 {/if}

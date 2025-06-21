@@ -1,12 +1,12 @@
 <script lang="ts">
   import { onMount } from 'svelte/internal';
   import { base } from '$app/paths';
+  import type { Language } from '$types/languages'; // fails here
 
-  let languages;
-
-  async function fetchData() {
+  async function fetchData(): Promise<Record<string, Language>> {
     const response = await fetch(`${base}/languages/list.json`);
-    languages = await response.json();
+    // languages = await response.json();
+    return await response.json();
   }
 
   onMount(async () => {
@@ -14,7 +14,7 @@
   });
 </script>
 
-{#await fetchData() then}
+{#await fetchData() then languages}
   <div class="flex flex-row flex-wrap justify-center">
     {#each Object.entries(languages) as [lang, values]}
       <a href="{base}/{lang}" class="btn md:btn-md lg:btn-lg basis-1/4"

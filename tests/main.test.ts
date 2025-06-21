@@ -14,7 +14,7 @@ test('Home page has expected h1', async ({ page }) => {
 });
 
 
-test('Lang page has expected begin button', async ({ page }, testInfo) => {
+test('Lang page has expected begin button', async ({ page }) => {
   await page.goto('/en/');
   const element = page.locator('.container .btn.btn-wide').first()
 

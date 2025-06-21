@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
+import type { Page, Locator } from '@playwright/test';
 
-async function dragAndDrop(page, source, target) {
+async function dragAndDrop(page: Page, source: Locator, target: Locator) {
   await source.waitFor({ state: 'visible' });
   await target.waitFor({ state: 'visible' });
 
@@ -30,7 +31,7 @@ async function dragAndDrop(page, source, target) {
     await page.mouse.up();
     await page.waitForTimeout(100); // Important for drop effect
   }}
-async function moveAnswers(page) {
+async function moveAnswers(page: Page) {
   const availableAnswer = page.locator('.options .answer .rounded-box').nth(0);
   const arr = [0, 1, 2, 3];
 
