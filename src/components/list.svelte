@@ -8,18 +8,18 @@
 
   export let items: Word[] = [];
   export let placeholder = '';
-  export let testValue = 0;
+  export let testValue: number | null = null;
   export let pageNumber = 0;
 
   const MAX_ALLOWED = 1;
   $: dropFromOthersDisabled = items.length === MAX_ALLOWED || !placeholder;
   $: dragDisabled = !!placeholder && items.length === 0;
 
-  const updateWordRank = (pageNumber: number, wordId: number, newRank: number) => {
+  const updateWordRank = (pageNumber: number, wordId: number, newRank: number | null) => {
     if (pageNumber || wordId || newRank) {
       wordGroupsStore.update((sets) => {
         const wordIndex = sets[pageNumber].words.findIndex((word) => word.id === wordId);
-        if (wordIndex > -1) {
+        if (wordIndex > -1 && newRank !== null) {
           sets[pageNumber].words[wordIndex].rank = Number(newRank);
         }
         return sets; // return the updated store
