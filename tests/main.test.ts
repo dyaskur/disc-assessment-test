@@ -17,16 +17,15 @@ test('Home page has expected h1', async ({ page }) => {
   expect(await languageButtons.count()).toBe(count);
 });
 
-
 test('Lang page has expected begin button', async ({ page }) => {
   await page.goto('/en/');
-  const element = page.locator('.container .btn.btn-wide').first()
+  const element = page.locator('.container .btn.btn-wide').first();
 
   expect(await element.textContent()).toBe('BEGIN ASSESSMENT');
   await element.click();
   await page.waitForLoadState('networkidle');
 
-// Extract and assert the current URL
+  // Extract and assert the current URL
   const url = new URL(page.url());
   expect(url.pathname).toBe('/en/test');
 });

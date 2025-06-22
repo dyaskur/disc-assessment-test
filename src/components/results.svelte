@@ -34,7 +34,7 @@
     color: string;
   };
 
-  async function calculatepoints(store: WordGroupData['wordGroups']) {
+  async function calculatePoints(store: WordGroupData['wordGroups']) {
     const points: Point[] = resultsLanguage.attributes.map((attr, index) => ({
       id: index,
       trait: attr.name,
@@ -61,8 +61,7 @@
   }
 </script>
 
-
-{#await calculatepoints($wordGroupsStore) then { points, sortedPoints }}
+{#await calculatePoints($wordGroupsStore) then { points, sortedPoints }}
   <div id="results">
     <h1 class="text-3xl md:text-4xl">{resultsLanguage.heading}</h1>
 
@@ -94,7 +93,7 @@
     </div>
   </div>
   <div style="display: flex;margin: 0 auto;justify-content: center; margin-top: 2rem">
-    <button on:click={() => saveScreenshot()} class="btn btn-wide btn-primary "
+    <button on:click={() => saveScreenshot()} class="btn btn-wide btn-primary"
       >{resultsLanguage.button}</button
     >
   </div>

@@ -55,8 +55,8 @@ To add a new language to the Disc Assessment Tool, follow these steps:
 
 4. Restart the development server to see the new language option in the tool.
 
-
 ## Changes in This Fork
+
 This fork includes the following upgrades and improvements:
 
 - 🔼 Svelte upgraded from v3 to v4
@@ -68,6 +68,7 @@ This fork includes the following upgrades and improvements:
 - 🧪 Add feature tests using Playwright
 
 ## Coming Soon
+
 - Add more input fields to allow users to provide more detailed responses
 - Save session data to local storage to allow users to return to their previous assessment results
 - Add a "Share" button to allow users to share their results with others

@@ -27,7 +27,7 @@ test('Test page has expected drag and drop', async ({ page }) => {
     await page.waitForTimeout(100);
     await moveAnswers(page);
     await page.waitForTimeout(100);
-    await page.screenshot({ path: 'tests/screenshots/question'+i+'.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/question' + i + '.png', fullPage: true });
     await nextButton.click();
   }
 
@@ -36,12 +36,12 @@ test('Test page has expected drag and drop', async ({ page }) => {
   expect(await saveButton.isVisible()).toBe(true);
   expect(await saveButton.textContent()).toBe('Download & Save');
   await page.waitForTimeout(500);
-  await page.screenshot({ path: 'tests/screenshots/finished'+timestamp+'.png', fullPage: true });
-  page.on('download', download => download.path().then(console.log));
-  const [ download ] = await Promise.all([
-    page.waitForEvent('download'),
-    saveButton.click(),
-  ]);
+  await page.screenshot({
+    path: 'tests/screenshots/finished' + timestamp + '.png',
+    fullPage: true
+  });
+  page.on('download', (download) => download.path().then(console.log));
+  const [download] = await Promise.all([page.waitForEvent('download'), saveButton.click()]);
 
   // Save to a specific path
   const suggestedFilename = download.suggestedFilename();
@@ -51,5 +51,4 @@ test('Test page has expected drag and drop', async ({ page }) => {
 
   // Verify file exist
   expect(fs.existsSync(savePath)).toBe(true);
-
 });

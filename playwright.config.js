@@ -7,7 +7,7 @@ const config = {
   testDir: './tests',
   use: {
     screenshot: 'only-on-failure',
-    trace: 'retain-on-failure',
+    trace: 'retain-on-failure'
   }
 };
 
