@@ -17,7 +17,7 @@
 {#await fetchData() then languages}
   <div class="flex flex-row flex-wrap justify-center">
     {#each Object.entries(languages) as [lang, values]}
-      <a href="{base}/{lang}" class="btn md:btn-md lg:btn-lg basis-1/4"
+      <a href="{base}/{lang}" class="btn md:btn-md lg:btn-lg text-white basis-1/4"
         ><span {lang}>{values.name}</span></a
       >
     {/each}

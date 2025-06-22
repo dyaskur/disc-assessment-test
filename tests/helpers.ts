@@ -4,7 +4,7 @@ export async function dragAndDrop(page: Page, source: Locator, target: Locator) 
   await source.waitFor({ state: 'visible' });
   await target.waitFor({ state: 'visible' });
 
-// Get element positions
+  // Get element positions
   const sourceBox = await source.boundingBox();
   const targetBox = await target.boundingBox();
 
@@ -29,4 +29,5 @@ export async function dragAndDrop(page: Page, source: Locator, target: Locator) 
     // Release mouse
     await page.mouse.up();
     await page.waitForTimeout(100); // Important for drop effect
-  }}
+  }
+}

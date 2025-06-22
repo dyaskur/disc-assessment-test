@@ -4,9 +4,13 @@ module.exports = {
   daisyui: {
     themes: [
       {
-        corporate: {
-          ...require('daisyui/src/colors/themes')['[data-theme=corporate]'],
-          'background-color': '#f1f1e6'
+        saung: {
+          'base-100': '#f1f1e6',
+          'base-content': '#000000',
+          primary: '#3b82f6',
+          secondary: '#facc15',
+          accent: '#37cdbe',
+          neutral: '#3d4451'
         }
       }
     ]

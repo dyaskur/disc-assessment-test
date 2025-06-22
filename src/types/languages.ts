@@ -1,6 +1,5 @@
 export type Language = { code: string; name: string };
 
-
 export type PersonalityAttribute = {
   name: string;
   definition: string;
