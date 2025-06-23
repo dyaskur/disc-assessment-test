@@ -38,6 +38,15 @@
   }
 
   onMount(async () => {
+    const lastSession = localStorage.getItem('lastSession');
+    if (lastSession) {
+      const wordGroups = JSON.parse(lastSession);
+      pageNumber = wordGroups.pageNumber;
+      wordGroupsStore.set(wordGroups.wordGroups);
+      console.log(wordGroups, 'lastSession');
+    } else {
+      console.log('no lastSession');
+    }
     await fetchData();
     resultsLanguage = await fetchResultsLanguage();
   });
