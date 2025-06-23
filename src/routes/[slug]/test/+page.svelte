@@ -17,7 +17,12 @@
   let pageNumber = 0;
   let maxPageNumber = 0;
 
-  let options = { first: null, second: null, third: null, fourth: null };
+  let options: {
+    first: Word | null;
+    second: Word | null;
+    third: Word | null;
+    fourth: Word | null;
+  } = { first: null, second: null, third: null, fourth: null };
   let items1: Word[] = [],
     items2: Word[] = [],
     items3: Word[] = [],

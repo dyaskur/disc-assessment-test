@@ -22,6 +22,13 @@ export type AssessmentResultText = {
   button: string;
 };
 
+export type IntroductoryText = {
+  language: string;
+  heading: string;
+  introduction: string;
+  button: string;
+};
+
 export type Word = {
   id: number;
   word: string;

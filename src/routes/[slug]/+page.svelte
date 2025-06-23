@@ -2,11 +2,11 @@
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
   import { base } from '$app/paths';
+  import type { IntroductoryText } from '$types/languages';
 
   const lang = $page.params.slug;
-  let promise = fetchData();
 
-  async function fetchData() {
+  async function fetchData(): Promise<IntroductoryText> {
     const response = await fetch(`${base}/languages/${lang}/intro.json`);
     return await response.json();
   }
@@ -18,7 +18,7 @@
   });
 </script>
 
-{#await promise then introData}
+{#await fetchData() then introData}
   <div class="flex-none flex justify-center mx-5">
     <h1 class="text-3xl md:text-4xl">{introData.heading}</h1>
   </div>
