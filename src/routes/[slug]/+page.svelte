@@ -6,17 +6,21 @@
   import { wordGroupsStore } from '../../stores/wordSet';
   import { goto } from '$app/navigation';
   import { sessionManager } from '../../utils/sessionManager';
+  import ConfirmModal from '$components/modals/ConfirmModal.svelte';
 
   const lang = $page.params.slug;
-
-  async function fetchData(): Promise<IntroductoryText> {
+  let modalRef: ConfirmModal;
+  let introData: IntroductoryText;
+  let loading = true;
+  async function fetchData(): void {
     const response = await fetch(`${base}/languages/${lang}/intro.json`);
-    return await response.json();
+    introData = await response.json();
+    loading = false;
   }
 
   let hasProgress = true;
-  let modalCheckbox: HTMLInputElement;
   onMount(async () => {
+    fetchData();
     const lastSession = sessionManager.loadSession();
     if (lastSession) {
       const wordGroups = lastSession;
@@ -44,11 +48,11 @@
 
   function openModal(e: MouseEvent) {
     e.preventDefault();
-    modalCheckbox.checked = true;
+    modalRef.open(); // Call method exposed from child
   }
 </script>
 
-{#await fetchData() then introData}
+{#if !loading}
   <div class="flex-none flex justify-center mx-5">
     <h1 class="text-3xl md:text-4xl">{introData.heading}</h1>
   </div>
@@ -73,26 +77,12 @@
       </a>
     {/if}
   </div>
-{/await}
+{/if}
 
-<!-- Checkbox-driven modal -->
-<input
-  type="checkbox"
-  id="continue_progress_modal"
-  class="modal-toggle"
-  bind:this={modalCheckbox}
+<ConfirmModal
+  bind:this={modalRef}
+  title={introData?.restartModalTitle || ''}
+  message={introData?.restartModalMessage || ''}
+  confirmButton="Restart"
+  onRestart={removeSession}
 />
-
-<div class="modal">
-  <div class="modal-box">
-    <h3 class="font-bold text-lg">Do you clear your progress and start over?</h3>
-    <p class="py-4">
-      You previously did this test but you did not complete it. If you restart, you will lose your
-      progress and can't continue where you left off.
-    </p>
-    <div class="modal-action">
-      <label on:click={removeSession} class="btn btn-secondary">Restart</label>
-      <label for="continue_progress_modal" class="btn btn-primary">Cancel</label>
-    </div>
-  </div>
-</div>

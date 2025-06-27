@@ -5,5 +5,8 @@
   "button": "MULAI TES",
   "startButton": "MULAI TES",
   "continueButton": "LANJUTKAN TES",
-  "restartButton": "MULAI ULANG TES"
+  "restartButton": "MULAI ULANG TES",
+  "restartModalTitle": "Do you clear your progress and start over?",
+  "restartModalMessage": "You previously did this test but you did not complete it. If you restart, you will lose your progress and can't continue where you left off."
 }
+

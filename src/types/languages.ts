@@ -30,6 +30,8 @@ export type IntroductoryText = {
   startButton: string;
   continueButton: string;
   restartButton: string;
+  restartModalTitle: string;
+  restartModalMessage: string;
 };
 
 export type Word = {
