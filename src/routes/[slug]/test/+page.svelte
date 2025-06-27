@@ -46,9 +46,10 @@
     if (!visited) {
       return goto(`/${lang}`);
     }
+    await fetchData();
     const lastSession = sessionManager.loadSession();
     if (lastSession) {
-      const wordGroups = JSON.parse(lastSession);
+      const wordGroups = lastSession;
       pageNumber = wordGroups.pageNumber;
       wordGroupsStore.set(wordGroups.wordGroups);
       console.log(wordGroups, 'lastSession');
@@ -56,7 +57,6 @@
     } else {
       console.log('no lastSession');
     }
-    await fetchData();
     resultsLanguage = await fetchResultsLanguage();
     localStorage.removeItem('visited_landing');
   });
