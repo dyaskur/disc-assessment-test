@@ -26,6 +26,7 @@
     const textDir = $page.params.slug === 'ar' ? 'rtl' : 'ltr';
     document.getElementById('main')?.setAttribute('lang', lang);
     document.getElementById('main')?.setAttribute('dir', textDir);
+    localStorage.setItem('visited_landing', 'true');
   });
 
   function removeSession(event) {

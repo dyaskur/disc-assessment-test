@@ -39,6 +39,10 @@
   }
 
   onMount(async () => {
+    const visited = localStorage.getItem('visited_landing');
+    if (!visited) {
+      return goto(`/${lang}`);
+    }
     const lastSession = localStorage.getItem('lastSession');
     if (lastSession) {
       const wordGroups = JSON.parse(lastSession);
@@ -51,6 +55,7 @@
     }
     await fetchData();
     resultsLanguage = await fetchResultsLanguage();
+    localStorage.removeItem('visited_landing');
   });
 
   async function fetchResultsLanguage() {
@@ -74,14 +79,6 @@
       const wordGroups = get(wordGroupsStore);
       const group = wordGroups[pageNumber];
       ready = !group.words.some((word) => word.rank === null);
-
-      const key = `lastSession`;
-      const lastSession = {
-        lang,
-        pageNumber,
-        wordGroups
-      };
-      localStorage.setItem(key, JSON.stringify(lastSession));
     });
     updatePageData(); // Make sure it's called after store is updated
   }
@@ -107,6 +104,19 @@
     console.log(ready, progress, options, 'updatePageData');
   }
 
+  function saveProgress() {
+    const wordGroups = get(wordGroupsStore);
+    if (wordGroups && wordGroups.length > 0) {
+      const key = `lastSession`;
+      const lastSession = {
+        lang,
+        pageNumber: pageNumber,
+        wordGroups
+      };
+      localStorage.setItem(key, JSON.stringify(lastSession));
+    }
+  }
+
   function handleNext() {
     const wordGroups = get(wordGroupsStore);
 
@@ -118,6 +128,7 @@
     pageNumber++;
     resetItems();
     updatePageData();
+    saveProgress();
   }
 
   function handleReset() {
