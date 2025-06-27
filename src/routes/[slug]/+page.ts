@@ -7,3 +7,4 @@ export async function entries() {
 }
 
 export const prerender = true;
+export const trailingSlash = 'always';

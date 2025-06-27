@@ -8,6 +8,7 @@
   import { base } from '$app/paths';
   import type { Word, AssessmentResultText, AssessmentInstructions } from '$types/languages';
   import { goto } from '$app/navigation';
+  import { sessionManager } from '../../../utils/sessionManager';
 
   const lang = $page.params.slug;
   let modalCheckbox: HTMLInputElement;
@@ -43,7 +44,7 @@
     if (!visited) {
       return goto(`/${lang}`);
     }
-    const lastSession = localStorage.getItem('lastSession');
+    const lastSession = sessionManager.loadSession();
     if (lastSession) {
       const wordGroups = JSON.parse(lastSession);
       pageNumber = wordGroups.pageNumber;

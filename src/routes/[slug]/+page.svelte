@@ -5,6 +5,7 @@
   import type { IntroductoryText } from '$types/languages';
   import { wordGroupsStore } from '../../stores/wordSet';
   import { goto } from '$app/navigation';
+  import { sessionManager } from '../../utils/sessionManager';
 
   const lang = $page.params.slug;
 
@@ -12,9 +13,10 @@
     const response = await fetch(`${base}/languages/${lang}/intro.json`);
     return await response.json();
   }
+
   let hasProgress = true;
   onMount(async () => {
-    const lastSession = localStorage.getItem('lastSession');
+    const lastSession = sessionManager.loadSession();
     if (lastSession) {
       const wordGroups = JSON.parse(lastSession);
       wordGroupsStore.set(wordGroups.wordGroups);
@@ -29,10 +31,14 @@
     localStorage.setItem('visited_landing', 'true');
   });
 
-  function removeSession(event) {
+  function removeSession(event: MouseEvent) {
     event.preventDefault(); // prevent normal <a> navigation
-    localStorage.removeItem('lastSession');
-    goto(`${base}/${lang}/test`);
+    try {
+      sessionManager.clearSession();
+      goto(`${base}/${lang}/test`);
+    } catch (error) {
+      console.error('Failed to restart session:', error);
+    }
   }
 </script>
 
