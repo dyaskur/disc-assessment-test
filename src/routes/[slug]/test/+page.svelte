@@ -7,6 +7,7 @@
   import { page } from '$app/stores';
   import { base } from '$app/paths';
   import type { Word, AssessmentResultText, AssessmentInstructions } from '$types/languages';
+  import { goto } from '$app/navigation';
 
   const lang = $page.params.slug;
   let modalCheckbox: HTMLInputElement;
@@ -139,9 +140,11 @@
     items3 = [];
     items4 = [];
   }
+
   function openModal() {
     modalCheckbox.checked = true;
   }
+
   function restartProgress() {
     pageNumber = 0;
     modalCheckbox.checked = false;
