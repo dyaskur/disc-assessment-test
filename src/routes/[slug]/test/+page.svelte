@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import { get } from 'svelte/store';
   import List from '../../../components/list.svelte';
   import Results from '../../../components/results.svelte';
@@ -9,12 +9,14 @@
   import type { Word, AssessmentResultText, AssessmentInstructions } from '$types/languages';
   import { goto } from '$app/navigation';
   import { sessionManager } from '../../../utils/sessionManager';
+  import type { SessionData } from '$types/sessions';
 
   const lang = $page.params.slug;
   let modalCheckbox: HTMLInputElement;
   let testLanguage: AssessmentInstructions | null = null;
   let resultsLanguage: AssessmentResultText | null = null;
   let showResults = false;
+  let unsubscribe: (() => void) | null = null;
 
   let pageNumber = 0;
   let maxPageNumber = 0;
@@ -59,6 +61,10 @@
     localStorage.removeItem('visited_landing');
   });
 
+  onDestroy(() => {
+    if (unsubscribe) unsubscribe();
+  });
+
   async function fetchResultsLanguage() {
     const res = await fetch(`${base}/languages/${lang}/results.json`);
     return await res.json();
@@ -72,10 +78,10 @@
 
     testLanguage = await testRes.json();
     const wordGroupData = await wordsRes.json();
-
     wordGroupsStore.set(wordGroupData.wordGroups);
-
-    wordGroupsStore.subscribe(() => {
+    // Clean up existing subscription
+    if (unsubscribe) unsubscribe();
+    unsubscribe = wordGroupsStore.subscribe(() => {
       progress = (pageNumber / maxPageNumber) * 100;
       const wordGroups = get(wordGroupsStore);
       const group = wordGroups[pageNumber];
@@ -108,13 +114,12 @@
   function saveProgress() {
     const wordGroups = get(wordGroupsStore);
     if (wordGroups && wordGroups.length > 0) {
-      const key = `lastSession`;
-      const lastSession = {
-        lang,
+      const lastSession: SessionData = {
+        language: lang,
         pageNumber: pageNumber,
         wordGroups
       };
-      localStorage.setItem(key, JSON.stringify(lastSession));
+      sessionManager.saveSession(lastSession);
     }
   }
 
