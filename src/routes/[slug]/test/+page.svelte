@@ -12,7 +12,6 @@
   import type { SessionData } from '$types/sessions';
 
   const lang = $page.params.slug;
-  let modalCheckbox: HTMLInputElement;
   let testLanguage: AssessmentInstructions | null = null;
   let resultsLanguage: AssessmentResultText | null = null;
   let showResults = false;
@@ -53,7 +52,6 @@
       pageNumber = wordGroups.pageNumber;
       wordGroupsStore.set(wordGroups.wordGroups);
       console.log(wordGroups, 'lastSession');
-      openModal();
     } else {
       console.log('no lastSession');
     }
@@ -157,16 +155,6 @@
     items3 = [];
     items4 = [];
   }
-
-  function openModal() {
-    modalCheckbox.checked = true;
-  }
-
-  function restartProgress() {
-    pageNumber = 0;
-    modalCheckbox.checked = false;
-    updatePageData();
-  }
 </script>
 
 {#if testLanguage}
@@ -217,22 +205,3 @@
     <Results {resultsLanguage} />
   {/if}
 {/if}
-
-<!-- Checkbox-driven modal -->
-<input
-  type="checkbox"
-  id="continue_progress_modal"
-  class="modal-toggle"
-  bind:this={modalCheckbox}
-/>
-
-<div class="modal">
-  <div class="modal-box">
-    <h3 class="font-bold text-lg">Would you like to continue last progress?</h3>
-    <p class="py-4">You previously did this test but you did not complete it.</p>
-    <div class="modal-action">
-      <label on:click={restartProgress} class="btn btn-secondary">Restart</label>
-      <label for="continue_progress_modal" class="btn btn-primary">Continue</label>
-    </div>
-  </div>
-</div>

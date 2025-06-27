@@ -15,10 +15,11 @@
   }
 
   let hasProgress = true;
+  let modalCheckbox: HTMLInputElement;
   onMount(async () => {
     const lastSession = sessionManager.loadSession();
     if (lastSession) {
-      const wordGroups = JSON.parse(lastSession);
+      const wordGroups = lastSession;
       wordGroupsStore.set(wordGroups.wordGroups);
       console.log(wordGroups, 'lastSession');
     } else {
@@ -40,6 +41,11 @@
       console.error('Failed to restart session:', error);
     }
   }
+
+  function openModal(e: MouseEvent) {
+    e.preventDefault();
+    modalCheckbox.checked = true;
+  }
 </script>
 
 {#await fetchData() then introData}
@@ -58,7 +64,7 @@
       <a href="{base}/{lang}/test" class="btn btn-wide btn-primary">
         <span>{introData.continueButton}</span>
       </a>
-      <a href="{base}/{lang}/test" on:click={removeSession} class="btn btn-wide btn-secondary">
+      <a href="#" on:click={openModal} class="btn btn-wide btn-secondary">
         <span>{introData.restartButton}</span>
       </a>
     {:else}
@@ -68,3 +74,25 @@
     {/if}
   </div>
 {/await}
+
+<!-- Checkbox-driven modal -->
+<input
+  type="checkbox"
+  id="continue_progress_modal"
+  class="modal-toggle"
+  bind:this={modalCheckbox}
+/>
+
+<div class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Do you clear your progress and start over?</h3>
+    <p class="py-4">
+      You previously did this test but you did not complete it. If you restart, you will lose your
+      progress and can't continue where you left off.
+    </p>
+    <div class="modal-action">
+      <label on:click={removeSession} class="btn btn-secondary">Restart</label>
+      <label for="continue_progress_modal" class="btn btn-primary">Cancel</label>
+    </div>
+  </div>
+</div>
