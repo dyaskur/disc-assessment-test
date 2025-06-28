@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import { get } from 'svelte/store';
   import List from '../../../components/list.svelte';
   import Results from '../../../components/results.svelte';
@@ -7,12 +7,15 @@
   import { page } from '$app/stores';
   import { base } from '$app/paths';
   import type { Word, AssessmentResultText, AssessmentInstructions } from '$types/languages';
+  import { goto } from '$app/navigation';
+  import { sessionManager } from '../../../utils/sessionManager';
+  import type { SessionData } from '$types/sessions';
 
   const lang = $page.params.slug;
-
   let testLanguage: AssessmentInstructions | null = null;
   let resultsLanguage: AssessmentResultText | null = null;
   let showResults = false;
+  let unsubscribe: (() => void) | null = null;
 
   let pageNumber = 0;
   let maxPageNumber = 0;
@@ -38,8 +41,26 @@
   }
 
   onMount(async () => {
+    const visited = localStorage.getItem('visited_landing');
+    if (!visited) {
+      return goto(`/${lang}`);
+    }
     await fetchData();
+    const lastSession = sessionManager.loadSession();
+    if (lastSession) {
+      const wordGroups = lastSession;
+      pageNumber = wordGroups.pageNumber;
+      wordGroupsStore.set(wordGroups.wordGroups);
+      console.log(wordGroups, 'lastSession');
+    } else {
+      console.log('no lastSession');
+    }
     resultsLanguage = await fetchResultsLanguage();
+    localStorage.removeItem('visited_landing');
+  });
+
+  onDestroy(() => {
+    if (unsubscribe) unsubscribe();
   });
 
   async function fetchResultsLanguage() {
@@ -55,17 +76,14 @@
 
     testLanguage = await testRes.json();
     const wordGroupData = await wordsRes.json();
-
     wordGroupsStore.set(wordGroupData.wordGroups);
-
-    wordGroupsStore.subscribe(() => {
-      // updatePageData();
+    // Clean up existing subscription
+    if (unsubscribe) unsubscribe();
+    unsubscribe = wordGroupsStore.subscribe(() => {
       progress = (pageNumber / maxPageNumber) * 100;
       const wordGroups = get(wordGroupsStore);
       const group = wordGroups[pageNumber];
       ready = !group.words.some((word) => word.rank === null);
-
-      console.log('update', progress, ready, group);
     });
     updatePageData(); // Make sure it's called after store is updated
   }
@@ -91,6 +109,18 @@
     console.log(ready, progress, options, 'updatePageData');
   }
 
+  function saveProgress() {
+    const wordGroups = get(wordGroupsStore);
+    if (wordGroups && wordGroups.length > 0) {
+      const lastSession: SessionData = {
+        language: lang,
+        pageNumber: pageNumber,
+        wordGroups
+      };
+      sessionManager.saveSession(lastSession);
+    }
+  }
+
   function handleNext() {
     const wordGroups = get(wordGroupsStore);
 
@@ -102,6 +132,7 @@
     pageNumber++;
     resetItems();
     updatePageData();
+    saveProgress();
   }
 
   function handleReset() {

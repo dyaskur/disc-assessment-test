@@ -1,5 +1,6 @@
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/kit/vite';
+import * as path from 'node:path';
 
 export default {
   preprocess: vitePreprocess(),
@@ -13,6 +14,9 @@ export default {
       precompress: false,
       strict: true
     }),
+    alias: {
+      $components: path.resolve('src/components')
+    },
     paths: {
       base: process.env.BASE_PATH ?? ''
     }

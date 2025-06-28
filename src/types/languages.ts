@@ -27,6 +27,11 @@ export type IntroductoryText = {
   heading: string;
   introduction: string;
   button: string;
+  startButton: string;
+  continueButton: string;
+  restartButton: string;
+  restartModalTitle: string;
+  restartModalMessage: string;
 };
 
 export type Word = {

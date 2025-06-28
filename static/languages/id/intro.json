@@ -2,5 +2,11 @@
   "language": "indonesia",
   "heading": "Tes Kepribadian DISC",
   "introduction": "Ini adalah tes kepribadian yang sederhana namun kuat, berdasarkan metodologi DISC yang sudah terkenal. Untuk menyelesaikan tes ini, urutkan kelompok kata berdasarkan seberapa cocoknya dengan pandangan Anda terhadap diri sendiri. Proses ini hanya memerlukan waktu maksimal 10 menit. Setelah menyelesaikan tes, Anda akan langsung menerima hasilnya. Bawa hasil tersebut ke seminar yang akan datang, di mana Anda akan mendapatkan penjelasan lengkap tentang setiap tipe kepribadian dan belajar bagaimana menjadi lebih efektif sesuai dengan tipe Anda. Sampai jumpa di seminar!",
-  "button": "MULAI TES"
+  "button": "MULAI TES",
+  "startButton": "MULAI TES",
+  "continueButton": "LANJUTKAN TES",
+  "restartButton": "MULAI ULANG TES",
+  "restartModalTitle": "Apakah Anda ingin menghapus progres dan memulai kembali?",
+  "restartModalMessage": "Anda sebelumnya telah mengerjakan tes ini tetapi belum menyelesaikannya. Jika Anda memulai ulang, semua progres Anda akan hilang dan Anda tidak dapat melanjutkan dari perntanyaan terakhir."
 }
+
