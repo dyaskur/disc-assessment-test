@@ -27,11 +27,21 @@ test('Lang page has expected begin button', async ({ page }) => {
 
   // Extract and assert the current URL
   const url = new URL(page.url());
-  expect(url.pathname).toBe('/en/test');
+  expect(url.pathname).toBe('/en/test/');
+});
+
+test('Assessment page can not be accessed without go to lang page', async ({ page }) => {
+  await page.goto('/en/test');
+  await page.waitForLoadState('networkidle');
+  // Extract and assert the current URL
+  const url = new URL(page.url());
+  expect(url.pathname).toBe('/en/');
 });
 
 test('Assessment page has expected reset droppable', async ({ page }) => {
-  await page.goto('/en/test');
+  await page.goto('/en/');
+  const startButton = page.locator('.btn-wide.btn-primary').nth(0);
+  await startButton.click();
   const resetButton = page.locator('.flex.justify-evenly.space-x-2.mt-1').locator('button').nth(0);
   const nextButton = page.locator('.flex.justify-evenly.space-x-2.mt-1').locator('button').nth(1);
   nextButton.waitFor({ state: 'visible' });
@@ -53,4 +63,29 @@ test('Assessment page has expected reset droppable', async ({ page }) => {
   await resetButton.click();
   // text should revert to original
   expect(await target1.textContent()).toContain('Very Much');
+});
+
+test('Assessment page can be continued', async ({ page }) => {
+  await page.goto('/en/');
+  const startButton = page.locator('.btn-wide.btn-primary').nth(0);
+  await startButton.click();
+  const resetButton = page.locator('.flex.justify-evenly.space-x-2.mt-1').locator('button').nth(0);
+  const nextButton = page.locator('.flex.justify-evenly.space-x-2.mt-1').locator('button').nth(1);
+  nextButton.waitFor({ state: 'visible' });
+  // Locate draggable and droppable
+  const availableAnswer = page.locator('.options .answer .rounded-box').nth(0);
+  const target1 = page.locator('.answers .answer').nth(0);
+  const target2 = page.locator('.answers .answer').nth(1);
+  const target3 = page.locator('.answers .answer').nth(2);
+  const target4 = page.locator('.answers .answer').nth(3);
+  await dragAndDrop(page, availableAnswer, target1);
+  await dragAndDrop(page, availableAnswer, target2);
+  await dragAndDrop(page, availableAnswer, target3);
+  await dragAndDrop(page, availableAnswer, target4);
+  await page.waitForTimeout(300);
+  await nextButton.click();
+  await page.goto('/en/');
+  const startButton2 = page.locator('.btn-wide.btn-primary').nth(0);
+  console.log(await startButton2.textContent(), 'startButton2.textContent()');
+  expect(await startButton2.textContent()).toContain('CONTINUE ASSESSMENT');
 });

@@ -17,7 +17,10 @@ async function moveAnswers(page: Page) {
 }
 test.setTimeout(120000);
 test('Test page has expected drag and drop', async ({ page }) => {
-  await page.goto('/en/test');
+  await page.goto('/en/test/');
+  const startButton = page.locator('.btn-wide.btn-primary').nth(0);
+  await startButton.click();
+  await page.waitForLoadState('networkidle');
   const nextButton = page.locator('.flex.justify-evenly.space-x-2.mt-1').locator('button').nth(1);
   await nextButton.waitFor({ state: 'visible' });
   const isDisabled = await nextButton.isDisabled();
