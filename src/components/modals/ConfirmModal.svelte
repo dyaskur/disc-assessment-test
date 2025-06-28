@@ -2,6 +2,8 @@
   export let title = '';
   export let message = '';
   export let confirmButton = '';
+  export let cancelButton = 'Cancel';
+
   export let onRestart: (event: MouseEvent) => void;
 
   let modal: HTMLDialogElement;
@@ -25,7 +27,7 @@
         }}
         class="btn btn-warning">{confirmButton}</button
       >
-      <button on:click={close} class="btn btn-primary">CANCEL</button>
+      <button on:click={close} class="btn btn-primary">{cancelButton}</button>
     </div>
   </div>
 </dialog>
