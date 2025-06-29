@@ -2,7 +2,7 @@
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
   import { base } from '$app/paths';
-  import type { IntroductoryText } from '$types/languages';
+  import type { CommonStrings, IntroductoryText } from '$types/languages';
   import { wordGroupsStore } from '../../stores/wordSet';
   import { goto } from '$app/navigation';
   import { sessionManager } from '../../utils/sessionManager';
@@ -10,17 +10,16 @@
 
   const lang = $page.params.slug;
   let modalRef: ConfirmModal;
-  let introData: IntroductoryText;
-  let loading = true;
-  async function fetchData(): void {
-    const response = await fetch(`${base}/languages/${lang}/intro.json`);
-    introData = await response.json();
-    loading = false;
-  }
+  type PageData = {
+    common: CommonStrings;
+    intro: IntroductoryText;
+  };
+  export let data: PageData;
+  const { common, intro } = data;
 
   let hasProgress = true;
   onMount(async () => {
-    fetchData();
+    console.log('onMount', data);
     const lastSession = sessionManager.loadSession();
     if (lastSession) {
       const wordGroups = lastSession;
@@ -52,37 +51,35 @@
   }
 </script>
 
-{#if !loading}
-  <div class="flex-none flex justify-center mx-5">
-    <h1 class="text-3xl md:text-4xl">{introData.heading}</h1>
-  </div>
+<div class="flex-none flex justify-center mx-5">
+  <h1 class="text-3xl md:text-4xl">{intro.heading}</h1>
+</div>
 
-  <div class="flex-none sm:container sm:mx-auto mx-10">
-    <p>
-      {introData.introduction}
-    </p>
-  </div>
+<div class="flex-none sm:container sm:mx-auto mx-10">
+  <p>
+    {intro.introduction}
+  </p>
+</div>
 
-  <div class="flex-1 flex flex-col items-center mt-6 space-y-4">
-    {#if hasProgress}
-      <a href="{base}/{lang}/test" class="btn btn-wide btn-primary">
-        <span>{introData.continueButton}</span>
-      </a>
-      <a href="#" on:click={openModal} class="btn btn-wide btn-secondary">
-        <span>{introData.restartButton}</span>
-      </a>
-    {:else}
-      <a href="{base}/{lang}/test" class="btn btn-wide btn-primary">
-        <span>{introData.startButton}</span>
-      </a>
-    {/if}
-  </div>
-{/if}
+<div class="flex-1 flex flex-col items-center mt-6 space-y-4">
+  {#if hasProgress}
+    <a href="{base}/{lang}/test" class="btn btn-wide btn-primary">
+      <span>{intro.continueButton}</span>
+    </a>
+    <a href="#" on:click={openModal} class="btn btn-wide btn-secondary">
+      <span>{intro.restartButton}</span>
+    </a>
+  {:else}
+    <a href="{base}/{lang}/test" class="btn btn-wide btn-primary">
+      <span>{intro.startButton}</span>
+    </a>
+  {/if}
+</div>
 
 <ConfirmModal
   bind:this={modalRef}
-  title={introData?.restartModalTitle || ''}
-  message={introData?.restartModalMessage || ''}
-  confirmButton="Restart"
+  title={intro?.restartModalTitle || ''}
+  message={intro?.restartModalMessage || ''}
+  confirmButton={common.restart}
   onRestart={removeSession}
 />
