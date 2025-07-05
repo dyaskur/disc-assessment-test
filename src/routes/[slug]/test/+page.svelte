@@ -5,15 +5,18 @@
   import Results from '../../../components/results.svelte';
   import { wordGroupsStore } from '../../../stores/wordSet';
   import { page } from '$app/stores';
-  import { base } from '$app/paths';
-  import type { Word, AssessmentResultText, AssessmentInstructions } from '$types/languages';
+  import type {
+    Word,
+    AssessmentResultText,
+    AssessmentInstructions,
+    CommonStrings,
+    WordGroupData
+  } from '$types/languages';
   import { goto } from '$app/navigation';
   import { sessionManager } from '../../../utils/sessionManager';
   import type { SessionData } from '$types/sessions';
 
   const lang = $page.params.slug;
-  let testLanguage: AssessmentInstructions | null = null;
-  let resultsLanguage: AssessmentResultText | null = null;
   let showResults = false;
   let unsubscribe: (() => void) | null = null;
 
@@ -39,23 +42,32 @@
       updatePageData();
     }
   }
+  type PageData = {
+    common: CommonStrings;
+    results: AssessmentResultText;
+    test: AssessmentInstructions;
+    wordGroups: WordGroupData;
+  };
+
+  export let data: PageData;
+  const { results, test, wordGroups } = data;
 
   onMount(async () => {
     const visited = localStorage.getItem('visited_landing');
     if (!visited) {
       return goto(`/${lang}`);
     }
-    await fetchData();
     const lastSession = sessionManager.loadSession();
     if (lastSession) {
-      const wordGroups = lastSession;
-      pageNumber = wordGroups.pageNumber;
-      wordGroupsStore.set(wordGroups.wordGroups);
-      console.log(wordGroups, 'lastSession');
+      pageNumber = lastSession.pageNumber;
+      wordGroupsStore.set(lastSession.wordGroups);
+      console.log(lastSession, 'lastSession');
+      subscribeStore();
+      updatePageData();
     } else {
+      initWordGroups();
       console.log('no lastSession');
     }
-    resultsLanguage = await fetchResultsLanguage();
     localStorage.removeItem('visited_landing');
   });
 
@@ -63,20 +75,13 @@
     if (unsubscribe) unsubscribe();
   });
 
-  async function fetchResultsLanguage() {
-    const res = await fetch(`${base}/languages/${lang}/results.json`);
-    return await res.json();
+  function initWordGroups() {
+    wordGroupsStore.set(wordGroups.wordGroups);
+    subscribeStore();
+    updatePageData(); // Make sure it's called after store is updated
   }
 
-  async function fetchData() {
-    const [testRes, wordsRes] = await Promise.all([
-      fetch(`${base}/languages/${lang}/test.json`),
-      fetch(`${base}/languages/${lang}/wordGroups.json`)
-    ]);
-
-    testLanguage = await testRes.json();
-    const wordGroupData = await wordsRes.json();
-    wordGroupsStore.set(wordGroupData.wordGroups);
+  function subscribeStore() {
     // Clean up existing subscription
     if (unsubscribe) unsubscribe();
     unsubscribe = wordGroupsStore.subscribe(() => {
@@ -85,7 +90,6 @@
       const group = wordGroups[pageNumber];
       ready = !group.words.some((word) => word.rank === null);
     });
-    updatePageData(); // Make sure it's called after store is updated
   }
 
   function updatePageData() {
@@ -157,51 +161,49 @@
   }
 </script>
 
-{#if testLanguage}
-  {#if !showResults}
-    <div class="flex-none sm:container sm:mx-auto mx-10 text-center">
-      <p>{testLanguage.instructionsText}</p>
+{#if !showResults}
+  <div class="flex-none sm:container sm:mx-auto mx-10 text-center">
+    <p>{test.instructionsText}</p>
+  </div>
+
+  <div class="available flex w-full h-50 pb-3">
+    <div class="flex flex-col w-full options">
+      {#if options.first}
+        <List items={[options.first]} bind:pageNumber />
+      {/if}
+      {#if options.second}
+        <List items={[options.second]} bind:pageNumber />
+      {/if}
+      {#if options.third}
+        <List items={[options.third]} bind:pageNumber />
+      {/if}
+      {#if options.fourth}
+        <List items={[options.fourth]} bind:pageNumber />
+      {/if}
     </div>
 
-    <div class="available flex w-full h-50 pb-3">
-      <div class="flex flex-col w-full options">
-        {#if options.first}
-          <List items={[options.first]} bind:pageNumber />
-        {/if}
-        {#if options.second}
-          <List items={[options.second]} bind:pageNumber />
-        {/if}
-        {#if options.third}
-          <List items={[options.third]} bind:pageNumber />
-        {/if}
-        {#if options.fourth}
-          <List items={[options.fourth]} bind:pageNumber />
-        {/if}
-      </div>
+    <div class="divider divider-horizontal" />
 
-      <div class="divider divider-horizontal" />
-
-      <div class="flex flex-col w-full answers">
-        <List items={items1} testValue={3} bind:pageNumber placeholder={testLanguage.scale[0]} />
-        <List items={items2} testValue={2} bind:pageNumber placeholder={testLanguage.scale[1]} />
-        <List items={items3} testValue={1} bind:pageNumber placeholder={testLanguage.scale[2]} />
-        <List items={items4} testValue={0} bind:pageNumber placeholder={testLanguage.scale[3]} />
-      </div>
+    <div class="flex flex-col w-full answers">
+      <List items={items1} testValue={3} bind:pageNumber placeholder={test.scale[0]} />
+      <List items={items2} testValue={2} bind:pageNumber placeholder={test.scale[1]} />
+      <List items={items3} testValue={1} bind:pageNumber placeholder={test.scale[2]} />
+      <List items={items4} testValue={0} bind:pageNumber placeholder={test.scale[3]} />
     </div>
+  </div>
 
-    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-      <div class="bg-yellow-500 h-2.5 rounded-full" style="width: {progress}%" />
-    </div>
+  <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: {progress}%" />
+  </div>
 
-    <div class="flex justify-evenly space-x-2 mt-1">
-      <button on:click={handleReset} class="btn md:btn-wide btn-secondary">
-        {testLanguage.resetButton}
-      </button>
-      <button on:click={handleNext} class="btn md:btn-wide btn-primary" disabled={!ready}>
-        {testLanguage.nextButton}
-      </button>
-    </div>
-  {:else if resultsLanguage}
-    <Results {resultsLanguage} />
-  {/if}
+  <div class="flex justify-evenly space-x-2 mt-1">
+    <button on:click={handleReset} class="btn md:btn-wide btn-secondary">
+      {test.resetButton}
+    </button>
+    <button on:click={handleNext} class="btn md:btn-wide btn-primary" disabled={!ready}>
+      {test.nextButton}
+    </button>
+  </div>
+{:else}
+  <Results resultsLanguage={results} />
 {/if}

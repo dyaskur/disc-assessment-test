@@ -33,7 +33,6 @@ export async function loadLanguage(lang: string, filesToLoad: string[], fallback
 
     const key = fileName.replace('.json', '');
     result[key] = data;
-
-    return result;
   }
+  return result;
 }
