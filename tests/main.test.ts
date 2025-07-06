@@ -19,14 +19,16 @@ test('Home page has expected h1', async ({ page }) => {
 
 test('Lang page has expected begin button', async ({ page }) => {
   await page.goto('/en/');
+  await page.waitForLoadState('networkidle');
   const element = page.locator('.container .btn.btn-wide').first();
 
   expect(await element.textContent()).toBe('BEGIN ASSESSMENT');
   await element.click();
   await page.waitForLoadState('networkidle');
-
+  await page.waitForTimeout(100);
   // Extract and assert the current URL
   const url = new URL(page.url());
+  console.log(url.pathname, 'url.pathname');
   expect(url.pathname).toBe('/en/test/');
 });
 
@@ -69,7 +71,6 @@ test('Assessment page can be continued', async ({ page }) => {
   await page.goto('/en/');
   const startButton = page.locator('.btn-wide.btn-primary').nth(0);
   await startButton.click();
-  const resetButton = page.locator('.flex.justify-evenly.space-x-2.mt-1').locator('button').nth(0);
   const nextButton = page.locator('.flex.justify-evenly.space-x-2.mt-1').locator('button').nth(1);
   nextButton.waitFor({ state: 'visible' });
   // Locate draggable and droppable

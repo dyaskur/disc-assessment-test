@@ -33,6 +33,15 @@ export type IntroductoryText = {
   restartModalTitle: string;
   restartModalMessage: string;
 };
+export type CommonStrings = {
+  restart: string;
+  start: string;
+  next: string;
+  back: string;
+  submit: string;
+  cancel: string;
+  close: string;
+};
 
 export type Word = {
   id: number;
