@@ -81,5 +81,6 @@
   title={intro?.restartModalTitle || ''}
   message={intro?.restartModalMessage || ''}
   confirmButton={common.restart}
+  cancelButton={common.cancel}
   onRestart={removeSession}
 />

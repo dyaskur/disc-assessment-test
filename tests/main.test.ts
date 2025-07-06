@@ -71,7 +71,6 @@ test('Assessment page can be continued', async ({ page }) => {
   await page.goto('/en/');
   const startButton = page.locator('.btn-wide.btn-primary').nth(0);
   await startButton.click();
-  const resetButton = page.locator('.flex.justify-evenly.space-x-2.mt-1').locator('button').nth(0);
   const nextButton = page.locator('.flex.justify-evenly.space-x-2.mt-1').locator('button').nth(1);
   nextButton.waitFor({ state: 'visible' });
   // Locate draggable and droppable

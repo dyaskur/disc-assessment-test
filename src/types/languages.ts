@@ -36,7 +36,11 @@ export type IntroductoryText = {
 export type CommonStrings = {
   restart: string;
   start: string;
+  next: string;
   back: string;
+  submit: string;
+  cancel: string;
+  close: string;
 };
 
 export type Word = {
